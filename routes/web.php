@@ -37,9 +37,6 @@ Route::get('/', function () {
 // Route::get('user/{user}', [UserController::class, 'loadView']);
 // Route::get('user', [UserController::class, 'loadView']);
 
-Route::get('/about', function () {
-    return view('about');
-});
 
 Route::get('/contact', function () {
     return view('contact');
@@ -50,5 +47,23 @@ Route::get('/login', function () {
     return view('users');
 });
 
+Route::view('check', 'check')->middleware('protected.page');
 
 Route::post('users', [UserController::class, 'getData']);
+
+Route::view('noaccess', 'noaccess');
+// Route::view('home', 'home');
+
+Route::group(['middleware' => ['protectPage']], function () {
+
+    Route::get('/about', function () {
+        return view('about');
+    });
+    Route::view('home', 'home');
+});
+
+// Route::get('users', [UserController::class, 'index']);
+
+Route::get('users', [UserController::class, 'getUsers']);
+
+Route::get('show_users', [UserController::class, 'getUsersfromAPI']);
